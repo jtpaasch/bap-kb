@@ -1,6 +1,6 @@
 # Using Toplevel.eval
 
-`Toplevel.eval` can be used to get the data held in the slot for a particular object.
+`Toplevel.eval` can be used to get the data held in a particular slot of a particular object.
 
 
 ## Example
@@ -149,7 +149,7 @@ Run the program:
 make
 ```
 
-It will print out the name of the class:
+It will print the color:
 
 ```
 - Color: blue

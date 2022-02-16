@@ -53,7 +53,7 @@ let build_car : Car.tag KB.obj KB.t =
   KB.return car
 ```
 
-Next, use `KB.run` to execute the `build_car` procedure, and take a snapshot of the object at the end:
+Next, use `KB.run` to execute the `build_car` procedure:
 
 ```
 let () =
@@ -61,7 +61,7 @@ let () =
   let result = KB.run Car.cls build_car state in
 ```
 
-If the KB computation succeeds, it returns a pair `(snapshot, updated_state)`. If it fails, it returns a KB error. We can print both of them:
+If the KB computation succeeds, it returns a pair `(snapshot, new_state)`, where `snapshot` is a snapshot of the object at the end of the computation, and `new_state` is the updated KB state. If the computation fails, it returns a KB error. We can print both of them:
 
 ```
 let () =
