@@ -7,7 +7,7 @@ Every KB slot has the following type:
 ```
 
 Note that:
-* `'k` is the type tag of a class, i.e., the `'k` in the class's type `('k, 's) Kb.cls`.
+* `'k` is the tag that uniquely identifies a class, i.e., the `'k` in the class's type `('k, 's) Kb.cls`.
 * `'p` is the type of data that goes in the slot, e.g. `string`, `int option`, etc.
 
 
@@ -31,7 +31,7 @@ Add a class to represent cars:
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"
@@ -59,7 +59,7 @@ module Car = struct
 end
 ```
 
-Now declare a slot for color (the color of the car):
+Declare a slot to hold the color:
 
 ```
 module Car = struct
@@ -72,7 +72,9 @@ module Car = struct
 end
 ```
 
-Now we have created a car class, whose objects will have one slot that be filled with the name of a color (a string). We aren't doing anything with this class yet, so let's just print out the name of the class.
+At this point, we have created a car class, whose objects will have one slot that can be filled with the name of a color (a string).
+
+We aren't doing anything with this class yet, so let's just print out the name of the class.
 
 ```
 let get_name (cls : ('k, 's) KB.cls) : string =
@@ -98,7 +100,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"

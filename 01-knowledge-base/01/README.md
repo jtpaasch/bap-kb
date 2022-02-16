@@ -29,7 +29,9 @@ let () = match Bap_main.init () with
   | Error _ -> failwith "Error initializing BAP"
 ```
 
-For a toy example, let's create a class to represent cars. Let's encapsulate the definition inside a module:
+For a toy example, let's define a class to represent cars.
+
+First, let's encapsulate our definition inside a module:
 
 ```
 module Car = struct
@@ -39,7 +41,7 @@ module Car = struct
 end
 ```
 
-Specify a package name (BAP uses this to namespace your classes, so choose a name that uniquely identifies your organizaton):
+Next, specify a package name (BAP uses this to namespace your classes, so choose a name that uniquely identifies your organizaton):
 
 ```
 module Car = struct
@@ -49,24 +51,24 @@ module Car = struct
 end
 ```
 
-Specify a type to uniquely tag the class:
+Then specify a type to uniquely tag the class:
 
 ```
 module Car = struct
 
   package = "my.org"
-  type tag
+  type tag = Car
 
 end
 ```
 
-Next, we need to specify a type for a sorting index, that can be used to index sub-classes. For this example, let's assume that we don't need to further sub-class. So, we'll use `unit` as the sort, since it has only one value (namely, `()`):
+Next, we need to specify a type for a sorting index, which can be used to index sub-classes. For this example, let's assume that we don't need further sub-classes. So, we'll just use `unit` as the sort, since it has only one value (namely, `()`):
 
 ```
 module Car = struct
 
   package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
 end
@@ -78,7 +80,7 @@ Now declare a class for cars:
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"
@@ -92,7 +94,8 @@ end
 
 We haven't attached any slots to this class yet, but this is a valid class nonethless, and it illustrates the basic procedure behind creating a class: specify a type to use to tag the class and a type to use as a sorting index, and then use `KB.Class.declare name index` to create the class.
 
-At this point, there isn't much to do with the class, so let's just print its name.
+At this point, there isn't much we can do with the class, so let's just print its name.
+
 Add a function that uses `KB.Class.name` to extract the name of a class:
 
 ```
@@ -121,7 +124,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"

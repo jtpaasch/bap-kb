@@ -7,7 +7,7 @@ let () = match Bap_main.init () with
 module Employee = struct
 
   let package = "my.org"
-  type tag
+  type tag = Employee
   type sort = Sales | Marketing | Executive
 
   let name = "sales-employee"

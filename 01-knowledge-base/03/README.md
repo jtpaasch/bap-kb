@@ -23,7 +23,7 @@ let () = match Bap_main.init () with
   | Error _ -> failwith "Error initializing BAP"
 ```
 
-Next define a flat domain that can hold strings, where the empty element is the empty string:
+Define a flat domain that can hold strings, where the empty element is the empty string:
 
 ```
 let string_domain : string KB.Domain.t =
@@ -35,7 +35,7 @@ let string_domain : string KB.Domain.t =
 
 Note that we provided an `inspect` function, which converts the value into an S-expression. This lets BAP print values in the domain nicely.
 
-We aren't doing anything with this domain yet, so for now just get its name:
+We aren't doing anything with this domain yet, so for now let's just display its name:
 
 ```
 let () =

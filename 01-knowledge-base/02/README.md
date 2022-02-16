@@ -27,13 +27,15 @@ let () = match Bap_main.init () with
   | Error _ -> failwith "Error initializing BAP"
 ```
 
-For a many-sorted example, let's create a class to represent employees. Create a module to encapsulate the definition, and specify a package name and class tag:
+For a many-sorted example, let's define a class to represent employees.
+
+Fist, create a module to encapsulate the definition, and specify a package name and a tag for the class:
 
 ```
 module Employee = struct
 
   package = "my.org"
-  type = tag
+  type tag = Employee
 
 end
 ```
@@ -44,7 +46,7 @@ Now for a sorting index. Let's index our sub-classes by whether the employee is 
 module Employee = struct
 
   package = "my.org"
-  type tag
+  type tag = Employee
   type sort = Sales | Marketing | Executive
 
 end
@@ -56,7 +58,7 @@ Declare a class for employees on the sales team:
 module Employee = struct
 
   package = "my.org"
-  type tag
+  type tag = Employee
   type sort = Sales | Marketing | Executive
 
   let name = "sales-employee"
@@ -74,7 +76,7 @@ Declare another class, this time for employees on the executive team:
 module Employee = struct
 
   package = "my.org"
-  type tag
+  type tag = Employee
   type sort = Sales | Marketing | Executive
 
   let name = "sales-employee"
@@ -118,7 +120,7 @@ let () = match Bap_main.init () with
 module Employee = struct
 
   package = "my.org"
-  type tag
+  type tag = Employee
   type sort = Sales | Marketing | Executive
 
   let name = "sales-employee"

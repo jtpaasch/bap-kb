@@ -1,6 +1,6 @@
 # Creating and updating KB objects
 
-KB objects are created with `KB.Object.create`. Data con be put in their slots with `KB.provide`, and data in the slots can retrieved with `KB.collect`.
+KB objects are created with `KB.Object.create`. Data can be put in their slots with `KB.provide`, and data can be retrieved from the slots with `KB.collect`.
 
 
 ## Example
@@ -21,7 +21,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"
@@ -132,7 +132,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"

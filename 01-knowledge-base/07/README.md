@@ -23,7 +23,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"
@@ -104,7 +104,7 @@ let () = match Bap_main.init () with
 module Car = struct
 
   let package = "my.org"
-  type tag
+  type tag = Car
   type sort = unit
 
   let name = "car"
