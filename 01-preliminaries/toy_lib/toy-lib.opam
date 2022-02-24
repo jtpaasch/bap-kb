@@ -1,0 +1,8 @@
+opam-version: "2.0"
+name: "toy-lib"
+synopsis: "A toy library"
+maintainer: "Somebody"
+authors: "Somebody"
+homepage: "http://somewhere.com"
+bug-reports: "somebody@gmail.com"
+build: [[make]]

@@ -1,4 +1,4 @@
-# Snapshots
+# Snapshots (KB values)
 
 You can take a snapshot of an object. A snapshot is just a record of the values contained in the object's slots at the time the snapshot is taken.
 
