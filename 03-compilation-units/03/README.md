@@ -55,11 +55,8 @@ Add a function that creates a program for a given address and target:
 ```
 let create_program (addr : Bitvec.t) (target : T.Target.t) : T.Label.t KB.t =
   let* label = create_label addr in
-  let* () = KB.provide T.Label.addr label (Some addr) in
-
   let* comp_unit = create_compilation_unit target in
   let* () = KB.provide T.Label.unit label (Some comp_unit) in
-
   KB.return label
 ```
 
@@ -108,11 +105,8 @@ let create_compilation_unit (target : T.Target.t) : T.Unit.t KB.t =
 
 let create_program (addr : Bitvec.t) (target : T.Target.t) : T.Label.t KB.t =
   let* label = create_label addr in
-  let* () = KB.provide T.Label.addr label (Some addr) in
-
   let* comp_unit = create_compilation_unit target in
   let* () = KB.provide T.Label.unit label (Some comp_unit) in
-
   KB.return label
 
 let () =
