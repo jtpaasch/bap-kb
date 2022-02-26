@@ -17,7 +17,7 @@ Some examples:
 
 To encode the semantics of programs, BAP provides what it calls a "core theory." A core theory is a very general kind of assembly language. It has variables, integers, floating point numbers, jumps, if-then-elses, and the like.
 
-When you want to stipulate what a program does at a particular label, you write it down as a core theory program, and you put that core theory program in the label's "semantics" slot. That core theory program then represents what the program "does" at that particular label.
+When you want to stipulate what a program does at a particular label, you write it down as a core theory program, and you put that core theory program in the label's "semantics" slot (`Theory.Semantics.slot`). That core theory program then represents what the program "does" at that particular label.
 
 
 ## Toy example
