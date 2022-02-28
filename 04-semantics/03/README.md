@@ -1,4 +1,4 @@
-# Assignment
+# Variable assignments
 
 As an example of a very simple program, consider one that moves, say, the integer 3 into a register R2 (in pseudo-assembly):
 

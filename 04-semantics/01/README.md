@@ -1,4 +1,4 @@
-# Semantics
+# Providing Semantics
 
 The simplest core theory program is a block. Blocks contain two parts:
 

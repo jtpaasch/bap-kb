@@ -1,4 +1,4 @@
-# Multiple assignments
+# Multiple variable assignments
 
 Sometimes a simple assignment involves setting flags too. For instance, suppose on a 32-bit architecture machine that uses status flags, we have a program that adds 0xffffffff and 0x01, and then assigns the result to the register R2:
 

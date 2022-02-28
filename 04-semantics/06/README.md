@@ -1,4 +1,4 @@
-# Theories
+# Custom Theories
 
 BAP's core theory language is actually a _signature_. You can add your own semantics by implementing the signature and registering it with BAP.
 
