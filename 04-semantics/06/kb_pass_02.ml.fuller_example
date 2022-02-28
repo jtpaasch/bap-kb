@@ -1,0 +1,125 @@
+open Core_kernel
+open Bap.Std
+
+module T = Bap_core_theory.Theory
+module KB = Bap_core_theory.KB
+
+open KB.Let
+
+let name = "toy-implementation"
+let package = "my.org"
+
+let expr_slot : (T.Value.cls, string) KB.slot =
+  KB.Class.property T.Value.cls "expr-slot" KB.Domain.string
+    ~package
+
+let stmnt_slot : (T.Semantics.cls, string) KB.slot =
+  KB.Class.property T.Semantics.cls "stmnt-slot" KB.Domain.string
+    ~package
+
+module Implementation : T.Core = struct
+
+  include T.Empty
+
+  let empty = T.Effect.empty T.Effect.Sort.bot
+  let null_of s = T.Value.empty s
+
+  let seq
+      (prog1 : 'a T.Effect.t KB.t) (prog2 : 'a T.Effect.t KB.t)
+      : 'a T.Effect.t KB.t =
+    let* p1 = prog1 in
+    let* p2 = prog2 in
+    let sem1 = KB.Value.get stmnt_slot p1 in
+    let sem2 = KB.Value.get stmnt_slot p2 in
+    let semantics = Format.sprintf "(%s %s)" sem1 sem2 in
+    let snapshot = KB.Value.put stmnt_slot empty semantics in
+    KB.return snapshot
+
+  let blk
+      (label : T.Label.t) (data : T.data T.Effect.t KB.t)
+      (ctrl : T.ctrl T.Effect.t KB.t) : unit T.Effect.t KB.t =
+    let* d = data in
+    let* c = ctrl in
+    let sem1 = KB.Value.get stmnt_slot d in
+    let sem2 = KB.Value.get stmnt_slot c in
+    let semantics = Format.sprintf "(%s) (%s)" sem1 sem2 in
+    let snapshot = KB.Value.put stmnt_slot empty semantics in
+    KB.return snapshot
+
+  let goto (label : T.Label.t) : T.ctrl T.Effect.t KB.t =
+    let* result = KB.collect T.Label.name label in
+    let name = match result with
+      | Some s -> s
+      | None -> "null"
+    in
+    let semantics = Format.sprintf "goto %s" name in
+    let snapshot = KB.Value.put stmnt_slot empty semantics in
+    KB.return snapshot
+
+  let set
+      (var : 'a T.Var.t) (expr : 'a T.Value.t KB.t) : T.data T.Effect.t KB.t =
+    let* e = expr in
+    let lhs = T.Var.name var in
+    let rhs = KB.Value.get expr_slot e in
+    let semantics = Format.sprintf "set %s (%s)" lhs rhs in
+    let snapshot = KB.Value.put stmnt_slot empty semantics in
+    KB.return snapshot
+
+  let var (var : 'a T.Var.t) : 'a T.Value.t KB.t =
+    let name = T.Var.name var in
+    let sort = T.Var.sort var in
+    let snapshot = KB.Value.put expr_slot (null_of sort) name in
+    KB.return snapshot
+
+  let int
+      (sort : 's T.Bitv.t T.Value.sort) (bv : Bitvec.t)
+      : 's T.Bitv.t T.Value.t KB.t =
+    let semantics = Format.asprintf "%a" Bitvec.pp bv in
+    let snapshot = KB.Value.put expr_slot (null_of sort) semantics in
+    KB.return snapshot
+
+  let add
+      (x : 's T.Bitv.t T.Value.t KB.t) (y : 's T.Bitv.t T.Value.t KB.t)
+      : 's T.Bitv.t T.Value.t KB.t =
+    let* bv1 = x in
+    let* bv2 = y in
+    let sort = T.Value.sort bv1 in
+    let expr1 = KB.Value.get expr_slot bv1 in
+    let expr2 = KB.Value.get expr_slot bv2 in
+    let semantics = Format.sprintf "(%s) + (%s)" expr1 expr2 in
+    let snapshot = KB.Value.put expr_slot (null_of sort) semantics in
+    KB.return snapshot
+
+end
+
+module Setup = struct
+
+  module Conf = Bap_main.Extension.Configuration
+  module Param_type = Bap_main.Extension.Type
+
+  let addr = Conf.parameter Param_type.string "addr"
+
+  let explore (addr : Bitvec.t) : unit =
+    let label = T.Label.for_addr addr in
+    let semantics = Toplevel.eval T.Semantics.slot label in
+    Format.printf "%a\n%!" KB.Value.pp semantics
+
+  let pass (ctxt : Bap_main.ctxt) (proj : Project.t) : unit =
+    let addr = Conf.get ctxt addr in
+    let () = 
+      if String.is_empty addr
+        then failwith "No address specified"
+        else ()
+    in
+    let word = Bitvec.of_string addr in
+    explore word
+
+  let run (ctxt : Bap_main.ctxt) : (unit, Bap_main.error) Stdlib.result =
+    let theory = KB.return (module Implementation : T.Core) in
+    T.declare theory ~package ~name;
+    Project.register_pass' (pass ctxt);
+    Ok ()
+
+end
+
+let () = Bap_main.Extension.declare Setup.run

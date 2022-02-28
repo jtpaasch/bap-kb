@@ -50,7 +50,7 @@ all: clean build
 $(EXE): $(SRC)
         nasm -w+all -f elf64 -o $(OBJ) $(SRC)
         ld -e main -o $(EXE) $(OBJ)
-        rm rf $(OBJ)
+        rm -rf $(OBJ)
 
 build: $(EXE)
 
